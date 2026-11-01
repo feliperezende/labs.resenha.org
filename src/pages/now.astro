@@ -1,0 +1,34 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { now } from '../config/now';
+---
+
+<Layout title="Now" description="Current focus, reading, and tinkering">
+  <header class="t-fade">
+    <h1 class="t-h1"><span class="text-terminal-green">❯</span> cat now.md</h1>
+    <p class="t-sub">last updated: {now.updated}</p>
+  </header>
+
+  <section class="t-section t-fade">
+    <span class="t-label">## building</span>
+    <ul class="text-mid text-[13px] space-y-2">
+      {now.building.map((item) => (
+        <li><span class="text-terminal-green">›</span> <span class="text-hi">{item}</span></li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="t-section t-fade" style="animation-delay: 80ms;">
+    <span class="t-label">## studying</span>
+    <ul class="text-mid text-[13px] space-y-2">
+      {now.studying.map((item) => (
+        <li><span class="text-amber">›</span> <span class="text-hi">{item}</span></li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="t-fade" style="animation-delay: 160ms;">
+    <span class="t-label">## speaking / writing</span>
+    <p class="text-mid text-[13px]">{now.speaking}</p>
+  </section>
+</Layout>

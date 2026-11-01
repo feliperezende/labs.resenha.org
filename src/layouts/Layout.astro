@@ -1,0 +1,49 @@
+---
+import '../styles/global.css';
+import { siteDescription, withBase, sourceUrl, githubUrl, linkedinUrl } from '../config/site';
+---
+
+<!doctype html>
+<html lang="pt-BR" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={siteDescription} />
+    <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
+    <meta name="theme-color" content="#0a0a0a" />
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed" href={withBase('/rss.xml')} />
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <header class="t-header">
+      <div class="t-main flex items-center justify-between py-3.5">
+        <a href={withBase('/')} class="t-logo" aria-label="Home">
+          <span class="prompt">❯</span> ~/labs
+        </a>
+        <nav class="flex items-center gap-5">
+          <a href={withBase('/experiments')} class="t-nav-link">experiments</a>
+          <a href={withBase('/lab-reports')} class="t-nav-link">lab-reports</a>
+          <a href={withBase('/now')} class="t-nav-link">now</a>
+          <a href={withBase('/about')} class="t-nav-link">about</a>
+          <a href={githubUrl} target="_blank" rel="noopener" class="t-nav-link" aria-label="GitHub">gh↗</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="flex-1 t-main py-12">
+      <slot />
+    </main>
+
+    <footer class="t-footer">
+      <div class="t-main">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+          <p>felipe rezende · em @nubank · são paulo</p>
+          <p class="flex items-center gap-4">
+            <a href={githubUrl} target="_blank" rel="noopener">github</a>
+            <a href={linkedinUrl} target="_blank" rel="noopener">linkedin</a>
+            <a href={sourceUrl} target="_blank" rel="noopener">source</a>
+          </p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

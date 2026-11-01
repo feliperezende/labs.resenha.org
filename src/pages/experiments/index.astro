@@ -1,0 +1,51 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ExperimentCard from '../../components/ExperimentCard.astro';
+import { getCollection } from 'astro:content';
+import { GROUP_ORDER, GROUP_LABEL } from '../../lib/groups';
+
+const experiments = (await getCollection('experiments')).sort(
+  (a, b) => +new Date(b.data.updatedAt) - +new Date(a.data.updatedAt)
+);
+const groupCount = new Set(experiments.map((e) => e.data.group)).size;
+const countByGroup = (g: string) => experiments.filter((e) => e.data.group === g).length;
+const usedGroups = GROUP_ORDER.filter((g) => countByGroup(g) > 0);
+---
+
+<Layout
+  title="Experiments"
+  description={`${experiments.length} public experiments across ${groupCount} groups`}
+>
+  <header class="t-fade">
+    <h1 class="t-h1"><span class="text-terminal-green">❯</span> ls experiments/</h1>
+    <p class="t-sub mb-2">{experiments.length} public experiments across {groupCount} groups</p>
+  </header>
+
+  <div class="t-fade">
+    <div class="flex flex-wrap gap-x-4 gap-y-1 py-4 border-b border-line text-[11px] uppercase tracking-widest">
+      <span class="text-dim">group:</span>
+      <span class="t-chip t-chip-on">all ({experiments.length})</span>
+      {usedGroups.map((g) => <span class="t-chip">{GROUP_LABEL[g]} ({countByGroup(g)})</span>)}
+      <span class="text-dim ml-4">status:</span>
+      <span class="t-chip t-chip-on">all</span>
+      <span class="t-chip">active</span>
+      <span class="t-chip">learning</span>
+      <span class="t-chip">archived</span>
+    </div>
+
+    {experiments.map((e) => (
+      <ExperimentCard
+        title={e.data.title}
+        slug={e.data.slug ?? e.id}
+        group={e.data.group}
+        language={e.data.language}
+        description={e.data.description}
+        updatedAt={e.data.updatedAt.toISOString()}
+        stars={e.data.stars}
+        status={e.data.status}
+        github={e.data.github}
+        demo={e.data.demo}
+      />
+    ))}
+  </div>
+</Layout>

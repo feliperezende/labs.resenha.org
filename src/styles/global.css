@@ -1,0 +1,208 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #0a0a0a;
+  --color-panel: #0f0f0f;
+  --color-line: #1f1f1f;
+  --color-dim: #6e6e6e;
+  --color-mid: #a8a8a8;
+  --color-hi: #f5f5f5;
+  --color-amber: #fbbf24;
+  --color-terminal-green: #4ade80;
+
+  --font-sans: 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, monospace;
+  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+
+  body {
+    @apply bg-ink text-hi font-mono antialiased;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  ::selection { @apply bg-amber/30; }
+
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: #0a0a0a; }
+  ::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 0; }
+  ::-webkit-scrollbar-thumb:hover { background: #3a3a3a; }
+}
+
+/* ── terminal layout primitives ─────────────────────────── */
+
+.t-header {
+  @apply border-b border-line bg-ink/95 backdrop-blur-sm sticky top-0 z-40;
+}
+
+.t-nav-link {
+  @apply text-dim hover:text-amber transition-colors text-[13px];
+}
+
+.t-logo {
+  @apply text-hi text-[15px] tracking-tight;
+}
+
+.t-logo .prompt {
+  @apply text-terminal-green;
+}
+
+.t-main {
+  @apply max-w-3xl mx-auto w-full px-5;
+}
+
+.t-footer {
+  @apply border-t border-line py-8 text-dim text-[12px];
+}
+
+.t-footer a {
+  @apply text-dim hover:text-amber transition-colors;
+}
+
+.t-section {
+  @apply border-b border-line py-10;
+}
+
+.t-label {
+  @apply text-[11px] uppercase tracking-[0.2em] text-dim mb-4 block;
+}
+
+.t-h1 {
+  @apply text-hi text-2xl md:text-3xl font-normal tracking-tight mb-3;
+}
+
+.t-sub {
+  @apply text-dim text-sm;
+}
+
+.t-h2 {
+  @apply text-hi text-lg font-normal mb-1;
+}
+
+/* ── experiment rows (table-like, no cards) ─────────────── */
+
+.t-row {
+  @apply border-b border-line py-4 grid grid-cols-[auto_1fr_auto] gap-x-4 gap-y-1
+         transition-colors hover:bg-panel/60;
+}
+
+.t-row-group {
+  @apply text-[11px] uppercase tracking-widest text-terminal-green;
+}
+
+.t-row-title {
+  @apply text-hi text-sm hover:text-amber transition-colors;
+}
+
+.t-row-desc {
+  @apply text-mid text-[13px] leading-6 col-span-3;
+}
+
+.t-row-meta {
+  @apply text-dim text-[11px] whitespace-nowrap;
+}
+
+.t-status { @apply text-[11px]; }
+.t-status-active { @apply text-[11px] text-terminal-green; }
+.t-status-archived { @apply text-[11px] text-dim; }
+.t-status-learning { @apply text-[11px] text-amber; }
+
+/* ── buttons ────────────────────────────────────────────── */
+
+.t-btn {
+  @apply inline-flex items-center gap-2 px-3 py-1.5 text-[13px] border border-line
+         text-mid hover:text-amber hover:border-amber/60 transition-colors;
+}
+
+.t-link {
+  @apply text-amber hover:underline underline-offset-4 decoration-line;
+}
+
+/* ── filters ────────────────────────────────────────────── */
+
+.t-chip {
+  @apply px-2 py-0.5 text-[11px] uppercase tracking-widest text-dim
+         hover:text-hi cursor-pointer transition-colors border border-transparent;
+}
+
+.t-chip-on {
+  @apply text-amber border-amber/40;
+}
+
+/* ── prose (mdx body) ───────────────────────────────────── */
+
+.prose-term h2 {
+  @apply text-hi text-lg mt-10 mb-3 pb-2 border-b border-line font-normal;
+}
+
+.prose-term h3 {
+  @apply text-hi text-base mt-6 mb-2 font-normal;
+}
+
+.prose-term p {
+  @apply text-mid leading-7 my-3;
+}
+
+.prose-term ul, .prose-term ol {
+  @apply my-3 pl-5 space-y-1;
+}
+
+.prose-term li {
+  @apply text-mid leading-7;
+}
+
+.prose-term ul { list-style: none; }
+
+.prose-term code {
+  @apply text-amber text-[13px] bg-panel px-1.5 py-0.5 border border-line/60;
+}
+
+.prose-term pre {
+  @apply bg-panel border border-line p-4 overflow-x-auto my-5 text-[13px] leading-6;
+}
+
+.prose-term pre code {
+  @apply bg-transparent border-0 p-0 text-mid;
+}
+
+.prose-term a {
+  @apply text-amber underline underline-offset-4 decoration-line hover:decoration-amber;
+}
+
+.prose-term blockquote {
+  @apply border-l-2 border-terminal-green pl-4 my-5 text-dim italic;
+}
+
+.prose-term table {
+  @apply w-full my-5 text-[13px];
+}
+
+.prose-term th {
+  @apply text-left border-b border-line py-2 text-dim uppercase text-[11px] tracking-widest font-normal;
+}
+
+.prose-term td {
+  @apply border-b border-line py-2 text-mid;
+}
+
+.prose-term hr {
+  @apply my-8 border-line;
+}
+
+/* ── misc ───────────────────────────────────────────────── */
+
+.t-cursor::after {
+  content: "▌";
+  @apply text-amber animate-pulse;
+}
+
+@keyframes t-fade {
+  from { opacity: 0; transform: translateY(2px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.t-fade {
+  animation: t-fade 0.25s ease-out;
+}

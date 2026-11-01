@@ -1,0 +1,86 @@
+{
+  "site_concept": "labs.resenha.org is Felipe's personal engineering laboratory — a curated showcase of side projects framed as deliberate experiments across languages, platforms, and domains. Unlike a portfolio index, each project is presented as a 'lab entry' with hypothesis (what I wanted to learn), method (tech choices), results (what shipped), and retrospection (what I'd change). The narrative centers on 'engineering curiosity beyond the day job' — exploring Rust/WASM for games, Kotlin for Android-TV bridging, Clojure for bot primitives, Luau for Roblox, Swift for meeting intelligence — not to demonstrate mastery, but to document the joy of building in unfamiliar territory. The tone is practitioner-to-practitioner: honest about scope, clear about trade-offs, generous with lessons.",
+  "project_groups": [
+    {
+      "name": "Game Engines & Interactive Worlds",
+      "description": "Experiments in real-time simulation, WASM game loops, and platform-specific game runtimes (Roblox/Luau). These explore rendering, state management, and multiplayer sync in constrained environments.",
+      "projects": [
+        "futmanager-wasm",
+        "speed-rainbow-escape",
+        "kikis-sky-adventure"
+      ]
+    },
+    {
+      "name": "Mobile & Cross-Platform Bridges",
+      "description": "Tools that solve personal friction across device ecosystems — iPhone→Android TV streaming, augmented driving overlays, home-brewing calculators. Each targets a specific 'I wish this existed' moment.",
+      "projects": [
+        "apk-receiver",
+        "augdrive",
+        "brewtools",
+        "meetrec"
+      ]
+    },
+    {
+      "name": "Developer Primitives & Tooling",
+      "description": "Small, focused libraries born from repeated needs: a Telegram bot client in Clojure, a DOM sanitizer, a meeting recorder, license compliance automation. Designed to be embedded, not showcased.",
+      "projects": [
+        "clj-telebot",
+        "clj-tasks",
+        "dom-cleaner",
+        "reviewer-intelligence",
+        "licensr",
+        "dotfiles"
+      ]
+    },
+    {
+      "name": "Personal Utilities & Daily Drivers",
+      "description": "Single-purpose tools built for Felipe's own routine: spinning timer, Python recipe collection, social media video downloader, Portuguese tile archive. Value = personal utility > generality.",
+      "projects": [
+        "treino-gallant",
+        "python-cookbook",
+        "v0-social-media-video-downloader",
+        "azulejosantigos",
+        "enjoy"
+      ]
+    },
+    {
+      "name": "Research & Open-Ended Exploration",
+      "description": "Projects without a ship date — shell-based research frameworks, experimental architectures, technology proofs-of-concept. Documented for the dead ends as much as the insights.",
+      "projects": [
+        "box1-research"
+      ]
+    }
+  ],
+  "tech_stack": {
+    "framework": "Astro v5 with View Transitions API — static-first, island hydration for interactive lab entries, excellent MDX support for long-form writeups, zero-JS default keeps it fast and maintainable.",
+    "hosting": "Cloudflare Pages (custom domain labs.resenha.org) — zero-config deploy from Git, edge functions for future dynamic features (search, webmentions), free tier generous for personal sites.",
+    "styling": "Tailwind CSS v4 with CSS-first configuration — design tokens in CSS, dark mode via media query + class strategy, minimal runtime. Custom theme: warm neutral palette (cream/charcoal), mono accent (amber), Inter + JetBrains Mono. No component library — hand-rolled components keep bundle tiny.",
+    "cms": "File-based content in /content/labs/ — each project is an .mdx file with frontmatter (hypothesis, stack, status, dates, links) and prose body. No headless CMS, no database. Git is the CMS. Optional: TinaCMS sidebar for quick edits without local dev."
+  },
+  "content_strategy": "Each project gets a dedicated lab entry (not a card in a grid). Entry structure: 1) Hypothesis — one paragraph: what question drove this? 2) Stack & Constraints — language, platform, self-imposed limits (e.g., 'no external deps', 'WASM under 200KB'). 3) What Shipped — live demo link, repo, screenshots/video, key features. 4) Retrospective — 3 bullets: what worked, what surprised me, what I'd do differently. 5) Artifacts — links to blog posts, talks, related issues. New entries added as projects reach 'shipped' state (not at idea stage). Quarterly 'Lab Notes' post synthesizes patterns across recent experiments. No marketing copy — write for the engineer who might steal your approach.",
+  "information_architecture": [
+    "/ — Entrance: hero with rotating 'current hypothesis', 5 group portals, latest 3 lab entries",
+    "/labs/ — Index of all lab entries, filterable by group, language, platform, status (shipped/archived/active)",
+    "/labs/[slug]/ — Individual lab entry (MDX-rendered with interactive diagrams, code blocks, media)",
+    "/labs/tags/[tag]/ — Tag-based cross-cutting views (e.g., 'wasm', 'clojure', 'kotlin', 'roblox')",
+    "/about — Felipe's engineering philosophy, current role, speaking/writing links",
+    "/now — /now page: current focus, active experiments, reading list",
+    "/feed.xml — RSS for lab entries + quarterly notes",
+    "/search — Client-side search (Pagefind) over all entry content"
+  ],
+  "visual_identity": "Warm technical aesthetic — not sterile 'dev portfolio' blue. Palette: cream (#FDFBF5) background, charcoal (#1C1C1C) text, amber (#D4A843) accent for links/hover, muted teal (#4A7C7C) for code highlights. Typography: Inter for UI/prose, JetBrains Mono for code/terminal moments. Subtle texture: 1px grid overlay on hero (graph paper feel), staggered entry animations (staggered 100ms). Icon system: hand-drawn SVG lab equipment (beaker, oscilloscope, soldering iron) for group portals — not generic tech icons. Motion: View Transitions between pages, reduced-motion respected. Dark mode: inverted cream/charcoal, amber→gold, teal→mint. Favicon: animated beaker bubbling (CSS-only, 4 frames).",
+  "next_steps": [
+    "Initialize Astro project with Tailwind v4, TypeScript strict, Prettier + ESLint config",
+    "Create content schema (Zod) for lab entries: frontmatter validation + MDX components",
+    "Build 5 group portal components with hand-drawn SVG icons",
+    "Implement lab entry layout: hypothesis→stack→shipped→retro→artifacts sections",
+    "Add Pagefind search index generation in build pipeline",
+    "Migrate 10 public repos + 7 context-mentioned projects into /content/labs/ as .mdx entries",
+    "Write 'About' and '/now' pages in Felipe's voice (concise, practical, no fluff)",
+    "Configure Cloudflare Pages deploy with custom domain labs.resenha.org",
+    "Set up TinaCMS sidebar for zero-friction entry edits",
+    "Add webmentions endpoint (Cloudflare Worker) for indie-web conversations",
+    "Quarterly cron: generate 'Lab Notes' synthesis post from recent entries",
+    "Accessibility audit: axe-core in CI, manual keyboard/voiceover pass"
+  ]
+}

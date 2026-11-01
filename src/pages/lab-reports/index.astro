@@ -1,0 +1,38 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { withBase } from '../../config/site';
+
+const reports = (await getCollection('lab-reports')).sort(
+  (a, b) => +new Date(b.data.date) - +new Date(a.data.date)
+);
+---
+
+<Layout title="Lab Reports" description="Quarterly synthesis posts">
+  <header class="t-fade">
+    <h1 class="t-h1"><span class="text-terminal-green">❯</span> ls lab-reports/</h1>
+    <p class="t-sub">quarterly synthesis posts</p>
+  </header>
+
+  <div class="t-fade">
+    {reports.length === 0 ? (
+      <div class="t-row">
+        <span class="t-row-group w-20">q4-26</span>
+        <p class="t-row-desc">
+          <span class="text-dim">no reports published yet.</span>
+          {' '}lab reports synthesize patterns across a quarter's experiments —
+          the first one is planned after q4-26 closes.
+        </p>
+      </div>
+    ) : (
+      reports.map((r) => (
+        <div class="t-row">
+          <span class="t-row-group w-20">{r.data.date.slice(0, 7)}</span>
+          <a href={withBase(`/lab-reports/${r.data.slug ?? r.id}`)} class="t-row-title">{r.data.title}</a>
+          <span class="t-row-meta">{r.data.date} · {r.data.readTime}</span>
+          <p class="t-row-desc">{r.data.description}</p>
+        </div>
+      ))
+    )}
+  </div>
+</Layout>

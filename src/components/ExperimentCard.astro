@@ -1,0 +1,47 @@
+---
+import { withBase } from '../config/site';
+
+interface Props {
+  title: string;
+  slug: string;
+  group: 'systems-wasm' | 'mobile-platform' | 'web-infra' | 'foundational';
+  language: string;
+  description: string;
+  updatedAt: string;
+  stars: number;
+  status: 'active' | 'archived' | 'learning';
+  github?: string;
+  demo?: string;
+}
+
+const { title, slug, group, language, description, updatedAt, stars, status, github, demo } = Astro.props;
+
+const groupLabel = {
+  'systems-wasm': 'systems',
+  'mobile-platform': 'mobile',
+  'web-infra': 'web',
+  'foundational': 'base',
+};
+
+const dateFmt = new Date(updatedAt).toISOString().slice(0, 10);
+const href = withBase(`/experiments/${slug}`);
+---
+
+<div class="t-row">
+  <span class="t-row-group w-20">{groupLabel[group]}</span>
+  <div>
+    <a href={href} class="t-row-title">{title}</a>
+    <span class="t-row-meta ml-3">[{language.toLowerCase()}]</span>
+  </div>
+  <div class="flex items-center gap-3">
+    <span class="t-row-meta">{dateFmt}</span>
+    {stars > 0 && <span class="t-row-meta">★{stars}</span>}
+    <span class={`t-status-${status}`}>{status}</span>
+  </div>
+  <p class="t-row-desc">{description}</p>
+  <div class="col-span-3 flex items-center gap-4">
+    <a href={href} class="t-link text-[12px]">cat →</a>
+    {github && <a href={github} target="_blank" rel="noopener" class="text-dim hover:text-amber text-[12px] transition-colors">github↗</a>}
+    {demo && <a href={demo} target="_blank" rel="noopener" class="text-dim hover:text-amber text-[12px] transition-colors">demo↗</a>}
+  </div>
+</div>

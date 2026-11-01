@@ -1,0 +1,62 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+import { groupLabel } from '../../lib/groups';
+import { withBase } from '../../config/site';
+
+export async function getStaticPaths() {
+  const experiments = await getCollection('experiments');
+  return experiments.map((experiment) => ({
+    params: { slug: experiment.data.slug ?? experiment.id },
+    props: { experiment },
+  }));
+}
+
+const { experiment } = Astro.props;
+const d = experiment.data;
+const { Content } = await render(experiment);
+const selfId = d.slug ?? experiment.id;
+
+const related = (await getCollection('experiments'))
+  .filter((e) => e.data.group === d.group && (e.data.slug ?? e.id) !== selfId)
+  .slice(0, 3);
+---
+
+<Layout title={d.title} description={d.description}>
+  <nav class="text-dim text-[12px] mb-6 t-fade">
+    <a href={withBase('/experiments')} class="t-nav-link">experiments</a>
+    <span class="mx-2 text-line">/</span>
+    <span class="text-hi">{d.title}</span>
+  </nav>
+
+  <header class="t-fade">
+    <h1 class="t-h1"><span class="text-terminal-green">❯</span> {d.title}</h1>
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-[12px] text-dim">
+      <span class="t-row-group">{groupLabel(d.group)}</span>
+      <span>[{d.language.toLowerCase()}]</span>
+      {d.stars > 0 && <span>★{d.stars}</span>}
+      <span class={`t-status-${d.status}`}>{d.status}</span>
+      <span>updated {d.updatedAt.toISOString().slice(0, 10)}</span>
+    </div>
+    {d.github && (
+      <div class="mt-4">
+        <a href={d.github} target="_blank" rel="noopener" class="t-btn">open repo ↗</a>
+      </div>
+    )}
+  </header>
+
+  <article class="prose-term t-section t-fade" style="animation-delay: 80ms;">
+    <Content />
+  </article>
+
+  {related.length > 0 && (
+    <section class="t-fade" style="animation-delay: 160ms;">
+      <span class="t-label">## related</span>
+      <div class="flex flex-wrap gap-4 text-[12px]">
+        {related.map((e) => (
+          <a href={withBase(`/experiments/${e.data.slug ?? e.id}`)} class="t-link">{e.data.title}</a>
+        ))}
+      </div>
+    </section>
+  )}
+</Layout>

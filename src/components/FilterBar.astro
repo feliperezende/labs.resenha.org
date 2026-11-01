@@ -1,0 +1,64 @@
+---
+---
+
+<script is:inline>
+  const groups = ['All', 'Systems', 'Mobile', 'Web', 'Foundational'];
+  const languages = ['All', 'Rust', 'Kotlin', 'Clojure', 'JavaScript', 'HTML', 'Ruby', 'Python'];
+  const statuses = ['All', 'Active', 'Archived', 'Learning'];
+  const sorts = ['Recent', 'Stars', 'Alphabetical'];
+
+  function createPills(containerId, options, onChange) {
+    const container = document.getElementById(containerId);
+    options.forEach((opt, i) => {
+      const btn = document.createElement('button');
+      btn.textContent = opt;
+      btn.type = 'button';
+      btn.dataset.value = opt;
+      btn.className = `px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-150 ${
+        i === 0
+          ? 'bg-amber-500 text-white'
+          : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
+      }`;
+      btn.addEventListener('click', () => {
+        container.querySelectorAll('button').forEach(b => {
+          b.classList.remove('bg-amber-500', 'text-white');
+          b.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-400');
+        });
+        btn.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-400');
+        btn.classList.add('bg-amber-500', 'text-white');
+        onChange(opt);
+      });
+      container.appendChild(btn);
+    });
+  }
+
+  function filterCards() {
+    const group = document.querySelector('[data-filter-group].bg-amber-500')?.dataset.value || 'All';
+    const lang = document.querySelector('[data-filter-lang].bg-amber-500')?.dataset.value || 'All';
+    const status = document.querySelector('[data-filter-status].bg-amber-500')?.dataset.value || 'All';
+    const sort = document.querySelector('[data-filter-sort].bg-amber-500')?.dataset.value || 'Recent';
+
+    document.querySelectorAll('.experiment-card').forEach(card => {
+      const matchGroup = group === 'All' || card.dataset.group === group.toLowerCase().replace(' & ', '-').replace(' ', '-');
+      const matchLang = lang === 'All' || card.dataset.lang === lang.toLowerCase();
+      const matchStatus = status === 'All' || card.dataset.status === status.toLowerCase();
+      card.style.display = (matchGroup && matchLang && matchStatus) ? 'block' : 'none';
+    });
+  }
+
+  document.addEventListener('astro:page-load', () => {
+    createPills('filter-groups', groups, filterCards);
+    createPills('filter-langs', languages, filterCards);
+    createPills('filter-status', statuses, filterCards);
+    createPills('filter-sorts', sorts, filterCards);
+  });
+</script>
+
+<div class="mb-8 animate-fade-in">
+  <div class="flex flex-wrap gap-4 mb-4">
+    <div id="filter-groups" class="flex flex-wrap gap-2" data-filter-group></div>
+    <div id="filter-langs" class="flex flex-wrap gap-2" data-filter-lang></div>
+    <div id="filter-status" class="flex flex-wrap gap-2" data-filter-status></div>
+    <div id="filter-sorts" class="flex flex-wrap gap-2" data-filter-sort></div>
+  </div>
+</div>

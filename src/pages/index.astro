@@ -1,0 +1,59 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ExperimentCard from '../components/ExperimentCard.astro';
+import { getCollection } from 'astro:content';
+import { siteTitle, siteDescription, withBase } from '../config/site';
+import { now } from '../config/now';
+
+const experiments = (await getCollection('experiments')).sort(
+  (a, b) => +new Date(b.data.updatedAt) - +new Date(a.data.updatedAt)
+);
+const latest = experiments.slice(0, 3);
+const groupCount = new Set(experiments.map((e) => e.data.group)).size;
+---
+
+<Layout title={siteTitle} description={siteDescription}>
+  <section class="t-section t-fade">
+    <h1 class="t-h1">~/labs <span class="text-terminal-green">❯</span> <span class="t-cursor"></span></h1>
+    <p class="t-sub">technical experiments · systems · mobile · web</p>
+    <p class="text-dim text-[13px] mt-1">{experiments.length} public repos · {groupCount} groups · curated, not an index</p>
+  </section>
+
+  <section class="t-section t-fade" style="animation-delay: 80ms;">
+    <span class="t-label">## latest</span>
+    {latest.map((e) => (
+      <ExperimentCard
+        title={e.data.title}
+        slug={e.data.slug ?? e.id}
+        group={e.data.group}
+        language={e.data.language}
+        description={e.data.description}
+        updatedAt={e.data.updatedAt.toISOString()}
+        stars={e.data.stars}
+        status={e.data.status}
+        github={e.data.github}
+        demo={e.data.demo}
+      />
+    ))}
+    <a href={withBase('/experiments')} class="t-link text-[12px] mt-6 inline-block">ls experiments/ →</a>
+  </section>
+
+  <section class="t-fade" style="animation-delay: 160ms;">
+    <span class="t-label">## now</span>
+    <div class="grid md:grid-cols-2 gap-x-8 gap-y-4 text-[13px]">
+      <div>
+        <p class="text-terminal-green mb-2">building:</p>
+        <ul class="text-mid space-y-1">
+          {now.building.map((x) => <li>{x}</li>)}
+        </ul>
+      </div>
+      <div>
+        <p class="text-amber mb-2">studying:</p>
+        <ul class="text-mid space-y-1">
+          {now.studying.map((x) => <li>{x}</li>)}
+        </ul>
+      </div>
+    </div>
+    <a href={withBase('/now')} class="t-link text-[12px] mt-6 inline-block">cat now.md →</a>
+  </section>
+</Layout>

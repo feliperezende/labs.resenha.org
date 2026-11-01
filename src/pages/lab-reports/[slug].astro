@@ -1,0 +1,38 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+import { withBase } from '../../config/site';
+
+export async function getStaticPaths() {
+  const reports = await getCollection('lab-reports');
+  return reports.map((report) => ({
+    params: { slug: report.data.slug ?? report.id },
+    props: { report },
+  }));
+}
+
+const { report } = Astro.props;
+const d = report.data;
+const { Content } = await render(report);
+---
+
+<Layout title={d.title} description={d.description}>
+  <nav class="text-dim text-[12px] mb-6 t-fade">
+    <a href={withBase('/lab-reports')} class="t-nav-link">lab-reports</a>
+    <span class="mx-2 text-line">/</span>
+    <span class="text-hi">{d.title}</span>
+  </nav>
+
+  <header class="t-fade">
+    <h1 class="t-h1"><span class="text-terminal-green">❯</span> {d.title}</h1>
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-[12px] text-dim">
+      <span>{d.date}</span>
+      <span>{d.readTime}</span>
+      {d.tags.map((t) => <span>#{t}</span>)}
+    </div>
+  </header>
+
+  <article class="prose-term t-section t-fade" style="animation-delay: 80ms;">
+    <Content />
+  </article>
+</Layout>
