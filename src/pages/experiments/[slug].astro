@@ -38,9 +38,14 @@ const related = (await getCollection('experiments'))
       <span class={`t-status-${d.status}`}>{d.status}</span>
       <span>updated {d.updatedAt.toISOString().slice(0, 10)}</span>
     </div>
-    {d.github && !d.private && (
-      <div class="mt-4">
-        <a href={d.github} target="_blank" rel="noopener" class="t-btn">open repo ↗</a>
+    {(d.demo || (d.github && !d.private)) && (
+      <div class="mt-4 flex items-center gap-3">
+        {d.demo && (
+          <a href={d.demo} target="_blank" rel="noopener" class="t-btn">play it ↗</a>
+        )}
+        {d.github && !d.private && (
+          <a href={d.github} target="_blank" rel="noopener" class="t-btn">open repo ↗</a>
+        )}
       </div>
     )}
   </header>
