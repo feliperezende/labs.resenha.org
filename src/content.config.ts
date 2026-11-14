@@ -16,6 +16,7 @@ const experiments = defineCollection({
     github: z.string().url().optional(),
     demo: z.string().url().optional(),
     tags: z.array(z.string()).default([]),
+    robloxUniverse: z.number().int().optional(),
   }),
 });
 

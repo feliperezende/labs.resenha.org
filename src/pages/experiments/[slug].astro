@@ -17,6 +17,25 @@ const d = experiment.data;
 const { Content } = await render(experiment);
 const selfId = d.slug ?? experiment.id;
 
+// Roblox live numbers, fetched at build time (static site — no client JS).
+// A network failure just drops the line instead of failing the build.
+let roblox: { visits: number; playing: number; favorites: number } | undefined;
+if (d.robloxUniverse) {
+  try {
+    const res = await fetch(`https://games.roblox.com/v1/games?universeIds=${d.robloxUniverse}`);
+    const g = (await res.json())?.data?.[0];
+    if (g) {
+      roblox = {
+        visits: g.visits ?? 0,
+        playing: g.playing ?? 0,
+        favorites: g.favoritedCount ?? 0,
+      };
+    }
+  } catch {
+    roblox = undefined;
+  }
+}
+
 const related = (await getCollection('experiments'))
   .filter((e) => e.data.group === d.group && (e.data.slug ?? e.id) !== selfId)
   .slice(0, 3);
@@ -37,6 +56,12 @@ const related = (await getCollection('experiments'))
       {d.stars > 0 && <span>★{d.stars}</span>}
       <span class={`t-status-${d.status}`}>{d.status}</span>
       <span>updated {d.updatedAt.toISOString().slice(0, 10)}</span>
+      {roblox && (
+        <span class="text-terminal-green">
+          roblox: {roblox.visits} visits · {roblox.playing} playing · {roblox.favorites} favs
+          <span class="text-dim"> (as of {new Date().toISOString().slice(0, 10)})</span>
+        </span>
+      )}
     </div>
     {(d.demo || (d.github && !d.private)) && (
       <div class="mt-4 flex items-center gap-3">
