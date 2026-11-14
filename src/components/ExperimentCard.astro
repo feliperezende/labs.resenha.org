@@ -1,10 +1,11 @@
 ---
 import { withBase } from '../config/site';
+import { groupLabel } from '../lib/groups';
 
 interface Props {
   title: string;
   slug: string;
-  group: 'systems-wasm' | 'mobile-platform' | 'web-infra' | 'foundational';
+  group: 'systems-wasm' | 'mobile-platform' | 'web-infra' | 'games' | 'foundational';
   language: string;
   description: string;
   updatedAt: string;
@@ -12,19 +13,15 @@ interface Props {
   status: 'active' | 'archived' | 'learning';
   github?: string;
   demo?: string;
+  isPrivate?: boolean;
 }
 
-const { title, slug, group, language, description, updatedAt, stars, status, github, demo } = Astro.props;
-
-const groupLabel = {
-  'systems-wasm': 'systems',
-  'mobile-platform': 'mobile',
-  'web-infra': 'web',
-  'foundational': 'base',
-};
+const { title, slug, group, language, description, updatedAt, stars, status, github, demo, isPrivate } = Astro.props;
 
 const dateFmt = new Date(updatedAt).toISOString().slice(0, 10);
 const href = withBase(`/experiments/${slug}`);
+// private repos 404 for visitors — don't advertise a dead link
+const repo = isPrivate ? undefined : github;
 ---
 
 <div class="t-row">
@@ -41,7 +38,7 @@ const href = withBase(`/experiments/${slug}`);
   <p class="t-row-desc">{description}</p>
   <div class="col-span-3 flex items-center gap-4">
     <a href={href} class="t-link text-[12px]">cat →</a>
-    {github && <a href={github} target="_blank" rel="noopener" class="text-dim hover:text-amber text-[12px] transition-colors">github↗</a>}
+    {repo && <a href={repo} target="_blank" rel="noopener" class="text-dim hover:text-amber text-[12px] transition-colors">github↗</a>}
     {demo && <a href={demo} target="_blank" rel="noopener" class="text-dim hover:text-amber text-[12px] transition-colors">demo↗</a>}
   </div>
 </div>

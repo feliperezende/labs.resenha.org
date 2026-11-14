@@ -18,7 +18,7 @@ const usedGroups = GROUP_ORDER.filter((g) => countByGroup(g) > 0);
 >
   <header class="t-fade">
     <h1 class="t-h1"><span class="text-terminal-green">❯</span> ls experiments/</h1>
-    <p class="t-sub mb-2">{experiments.length} public experiments across {groupCount} groups</p>
+    <p class="t-sub mb-2">{experiments.length} experiments across {groupCount} groups</p>
   </header>
 
   <div class="t-fade">
@@ -45,6 +45,7 @@ const usedGroups = GROUP_ORDER.filter((g) => countByGroup(g) > 0);
         status={e.data.status}
         github={e.data.github}
         demo={e.data.demo}
+        isPrivate={e.data.private}
       />
     ))}
   </div>

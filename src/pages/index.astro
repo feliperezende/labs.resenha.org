@@ -15,8 +15,8 @@ const groupCount = new Set(experiments.map((e) => e.data.group)).size;
 <Layout title={siteTitle} description={siteDescription}>
   <section class="t-section t-fade">
     <h1 class="t-h1">~/labs <span class="text-terminal-green">❯</span> <span class="t-cursor"></span></h1>
-    <p class="t-sub">technical experiments · systems · mobile · web</p>
-    <p class="text-dim text-[13px] mt-1">{experiments.length} public repos · {groupCount} groups · curated, not an index</p>
+    <p class="t-sub">technical experiments · systems · mobile · web · games</p>
+    <p class="text-dim text-[13px] mt-1">{experiments.length} experiments · {groupCount} groups · curated, not an index</p>
   </section>
 
   <section class="t-section t-fade" style="animation-delay: 80ms;">
@@ -33,6 +33,7 @@ const groupCount = new Set(experiments.map((e) => e.data.group)).size;
         status={e.data.status}
         github={e.data.github}
         demo={e.data.demo}
+        isPrivate={e.data.private}
       />
     ))}
     <a href={withBase('/experiments')} class="t-link text-[12px] mt-6 inline-block">ls experiments/ →</a>

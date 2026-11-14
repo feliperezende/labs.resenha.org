@@ -38,7 +38,7 @@ const related = (await getCollection('experiments'))
       <span class={`t-status-${d.status}`}>{d.status}</span>
       <span>updated {d.updatedAt.toISOString().slice(0, 10)}</span>
     </div>
-    {d.github && (
+    {d.github && !d.private && (
       <div class="mt-4">
         <a href={d.github} target="_blank" rel="noopener" class="t-btn">open repo ↗</a>
       </div>

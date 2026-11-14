@@ -6,7 +6,7 @@ const experiments = defineCollection({
   schema: z.object({
     title: z.string(),
     slug: z.string(),
-    group: z.enum(['systems-wasm', 'mobile-platform', 'web-infra', 'foundational']),
+    group: z.enum(['systems-wasm', 'mobile-platform', 'web-infra', 'games', 'foundational']),
     language: z.string(),
     description: z.string(),
     updatedAt: z.coerce.date(),
