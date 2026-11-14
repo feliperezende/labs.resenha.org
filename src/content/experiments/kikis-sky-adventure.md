@@ -9,6 +9,7 @@ stars: 0
 status: "active"
 private: true
 github: "https://github.com/feliperezende/kikis-sky-adventure"
+demo: "https://www.roblox.com/games/128759582737786"
 tags: ["roblox", "luau", "rojo", "gamedev", "lune"]
 ---
 
@@ -37,6 +38,7 @@ What does a Roblox game look like when it is written **entirely in code** — Lu
 - World life: NPCs (airport and hub crowds, field farmer and animals, island villagers, bird flocks, far sky traffic, boats), roads between towns, traffic (cars, bus, truck, ice-cream van, tractor, ferry), map life (windmills, smoke, kites, park, ducks, lighthouse beam).
 - Vehicles: planes and helicopters with a heli flight mode, hangar badges; optional **Robux unlocks** (Developer Products, idempotent `ProcessReceipt` saved before grant — coins unchanged).
 - Renamed from "Plane Avião" to **Kiki's Sky Adventure** in v30, keeping the old DataStore (`PlaneAviaoProgress_v1`) and web save keys (`planeAviao.*`) **on purpose** so nobody loses progress.
+- Public on Roblox: narrated by Captain Kiki in English or Portuguese, 37 golden balloons (one per mission), animal passenger flights, Fire Squad, Photo Safari, mountain rescues.
 - 44 commits so far, currently at v36.
 
 ## Retrospective (draft)

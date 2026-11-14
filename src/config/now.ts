@@ -1,6 +1,6 @@
 // Single source of truth for "now" — rendered by both the home page and /now.
 export const now = {
-  updated: '2026-11-01',
+  updated: '2026-11-14',
 
   building: [
     'roblox — game dev (luau)',

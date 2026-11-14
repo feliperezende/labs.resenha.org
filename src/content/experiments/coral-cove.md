@@ -9,6 +9,7 @@ stars: 0
 status: "active"
 private: true
 github: "https://github.com/feliperezende/coral-cove"
+demo: "https://www.roblox.com/games/112005388183592"
 tags: ["roblox", "luau", "rojo", "gamedev", "bilingual"]
 ---
 
@@ -32,6 +33,7 @@ Can a social island-life game for Roblox be **original and bilingual (PT-BR + EN
 
 - MVP v0.1 published on Roblox: universe `10775052461`, place `112005388183592`, genre **Simulation**, listing description published through the API.
 - Core loop: island, gathering, fishing, farming, crafting, orders, house, and a **playable tutorial** — Tomé guides the first session (shells → delivery → reward).
+- Public listing on Roblox (PT-BR description): arrive at a small island, get a simple house, help transform the village — in short, relaxing sessions.
 - The island itself: shrunk from the first draft, with the giant slabs replaced by Roblox **Terrain**.
 - `scripts/` for build/publish/diagnostics and a `tests/` suite alongside the Luau sources.
 
